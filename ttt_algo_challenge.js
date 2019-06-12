@@ -1,12 +1,13 @@
 var totalHappinessIndex;
 var writerCheck;
 
-//import excel file and store it into map -> data 
+//import excel file and store it into map -> data from https://docs.google.com/spreadsheets/d/1SysSboswRbeHczH7_yRxQXwdJB7geUfN8L1H4hgWsJE/edit?usp=sharing
 
 var data = [
-			{writer_id: w_1, tale_id: t_1},
-			{writer_id: w_2, tale_id: t_2}
-			];
+		{writer_id: w_1, tale_id: t_1},
+		{writer_id: w_2, tale_id: t_2} 
+];
+
 //sort data according to writer_id
 
 //store all unique writers in an array -> writers
