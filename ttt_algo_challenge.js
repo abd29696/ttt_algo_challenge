@@ -12,6 +12,16 @@ distinctWriters();
 setHappinessIndex();
 sortedData.sort(GetSortOrder("writerid"));
 
+// var twoDData = [];
+// sortedData.forEach(function(object){
+//     twoDData.push([object.writerid,object.taleid]);
+// });
+
+// var result = sortedData.reduce(function(map, obj) {
+//     map[obj.writerid] = obj.taleid;
+//     return map;
+// }, {});
+
 for(i = 0 ; i < sortedData.length; i++){
 
 	if(dailyTaleLimit != 10){
