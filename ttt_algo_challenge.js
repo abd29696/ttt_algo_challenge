@@ -41,7 +41,7 @@ for(i = 0 ; i < data.length(); i++){
 			dailyTaleLimit++;
 			
 			happinessIndex[data[i].writer_id].happinessIndex = happinessIndex[data[i].writer_id].happinessIndex+10; //wrong syntax - find writer and add 10 to it's happiness index
-			happinessIndex[data[i].writer_id].flag = 1; //wrong syntax - find writer and make flag 0
+			happinessIndex[data[i].writer_id].flag = 1; //wrong syntax - find writer and make flag 1
 		}
 	}
 	else{
@@ -49,7 +49,7 @@ for(i = 0 ; i < data.length(); i++){
 		dailyTaleLimit = 0;
 		for(j = 0; j < hapinessIndex.length(); j++){
 			if(happinessIndex[data[j].writer_id].flag != 1){ // wrong syntax - if flag of writer is 1
-				happinessIndex[data[j].writer_id].happinessIndex = happinessIndex[data[j].writer_id].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
+				happinessIndex[data[j].writer_id].happinessIndex = happinessIndex[data[j].writer_id].happinessIndex - 10; //wrong syntax - subtract 10 from the happiness index
 			}
 			else{
 				happinessIndex[data[j].writer_id].flag = 0; //wrong syntax - set flag to 0 again
