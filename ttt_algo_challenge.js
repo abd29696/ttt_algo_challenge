@@ -1,42 +1,16 @@
 var writers = [];
 var flags = [];
-for (var i = 0; i < data.length; i++){
-	if (flags[data[i].writerid]) continue;
-	flags[data[i].writerid] = true;
-    writers.push(data[i].writerid);
-}
-
 var happinessIndex = [];
-for(i = 0; i < writers.length; i++){
-	var addHappinessIndex = {
-				writerId: writers[i],
-				happinessIndex: 0,
-				flag: 0
-	};
-	happinessIndex.push(addHappinessIndex);
-}
-
 var totalHappinessIndex;
 var writerCheck;
 var publishQueue = [];
 var dailyTaleLimit = 0;
 var publish_date = 1;
-
 var sortedData = data;
+
+distinctWriters();
+setHappinessIndex();
 sortedData.sort(GetSortOrder("writerid"));
-
-function GetSortOrder(prop) {  
-    return function(a, b) {  
-        if (a[prop] > b[prop]) {  
-            return 1;  
-        } else if (a[prop] < b[prop]) {  
-            return -1;  
-        }  
-        return 0;  
-    }  
-}
-
-
 
 for(i = 0 ; i < sortedData.length; i++){
 
@@ -72,7 +46,36 @@ for(i = 0 ; i < sortedData.length; i++){
 
 	
 }
-console.log(publlishSchedule);
+
+function distinctWriters(){
+	for (var i = 0; i < data.length; i++){
+		if (flags[data[i].writerid]) continue;
+		flags[data[i].writerid] = true;
+		writers.push(data[i].writerid);
+	}
+}
+
+function setHappinessIndex(){
+	for(i = 0; i < writers.length; i++){
+		var addHappinessIndex = {
+			writerId: writers[i],
+			happinessIndex: 0,
+			flag: 0
+		};
+		happinessIndex.push(addHappinessIndex);
+	}
+}
+
+function GetSortOrder(prop) {  
+    return function(a, b) {  
+        if (a[prop] > b[prop]) {  
+            return 1;  
+        } else if (a[prop] < b[prop]) {  
+            return -1;  
+        }  
+        return 0;  
+    }  
+}
 
 			
 
