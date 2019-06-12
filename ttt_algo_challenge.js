@@ -1,60 +1,71 @@
-var totalHappinessIndex;
-var writerCheck;
-
-//import excel file and store it into map -> data from https://docs.google.com/spreadsheets/d/1SysSboswRbeHczH7_yRxQXwdJB7geUfN8L1H4hgWsJE/edit?usp=sharing
-
-var data = [
-		{writer_id: 1, tale_id: t_1},
-		{writer_id: 2, tale_id: t_2} 
-];
-
-//sort data according to writer_id
-
-//store all unique writers in an array -> writers
+var writers = [];
+var flags = [];
+for (var i = 0; i < data.length; i++){
+	if (flags[data[i].writerid]) continue;
+	flags[data[i].writerid] = true;
+    writers.push(data[i].writerid);
+}
 
 var happinessIndex = [];
-for(i = 0; i < writers.length(); i++){
+for(i = 0; i < writers.length; i++){
 	var addHappinessIndex = {
 				writerId: writers[i],
-				happinessIndex: 0;
+				happinessIndex: 0,
 				flag: 0
 	};
 	happinessIndex.push(addHappinessIndex);
 }
 
-var publishSchedule = [];
+var totalHappinessIndex;
+var writerCheck;
 var publishQueue = [];
 var dailyTaleLimit = 0;
 var publish_date = 1;
-for(i = 0 ; i < data.length(); i++){
+
+var sortedData = data;
+sortedData.sort(GetSortOrder("writerid"));
+
+function GetSortOrder(prop) {  
+    return function(a, b) {  
+        if (a[prop] > b[prop]) {  
+            return 1;  
+        } else if (a[prop] < b[prop]) {  
+            return -1;  
+        }  
+        return 0;  
+    }  
+}
+
+
+
+for(i = 0 ; i < sortedData.length; i++){
 
 	if(dailyTaleLimit != 10){
-		if(writerCheck != data[i].writer_id){
-			writerCheck = data[i].writer_id;
+		if(writerCheck != sortedData[i].writerid){
+			writerCheck = sortedData[i].writerid;
 			var publishDetails = {
 						publishDate: publish_date,
-						writerId: data[i].writer_id,
-						taleId: data[i].tale_id
+						writerId: sortedData[i].writerid,
+						taleId: sortedData[i].taleid
 					};
 			publishQueue.push(publishDetails);
 			dailyTaleLimit++;
 			
-			happinessIndex[data[i].writer_id].happinessIndex = happinessIndex[data[i].writer_id].happinessIndex+10; //wrong syntax - find writer and add 10 to it's happiness index
-			happinessIndex[data[i].writer_id].flag = 1; //wrong syntax - find writer and make flag 1
+			//happinessIndex[writerCheck].happinessIndex = happinessIndex[sortedData[i].writerid].happinessIndex+1; //wrong syntax - find writer and add 10 to it's happiness index
+			//happinessIndex[sortedData[i].writerid].flag = 1; //wrong syntax - find writer and make flag 1
 		}
 	}
 	else{
-		publishSchedule.push(publishQueue);
 		dailyTaleLimit = 0;
 		publish_date++; 
-		for(j = 0; j < hapinessIndex.length(); j++){
-			if(happinessIndex[data[j].writer_id].flag != 1){ // wrong syntax - if flag of writer is 1
-				happinessIndex[data[j].writer_id].happinessIndex = happinessIndex[data[j].writer_id].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
-			}
-			else{
-				happinessIndex[data[j].writer_id].flag = 0; //wrong syntax - set flag to 0 again
-			}
-		}
+		// for(j = 0; j < hapinessIndex.length; j++){
+		// 	if(happinessIndex[sortedData[j].writerid].flag != 1){ // wrong syntax - if flag of writer is 1
+		// 		happinessIndex[sortedData[j].writerid].happinessIndex = happinessIndex[sortedData[j].writerid].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
+		// 	}
+		// 	else{
+		// 		happinessIndex[sortedData[j].writerid].flag = 0; //wrong syntax - set flag to 0 again
+		// 	}
+		// }
 
 	}	
 	
@@ -62,6 +73,7 @@ for(i = 0 ; i < data.length(); i++){
 	
 }
 console.log(publlishSchedule);
+
 			
 
 
