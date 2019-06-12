@@ -49,7 +49,7 @@ for(i = 0 ; i < data.length(); i++){
 		publish_date++; 
 		for(j = 0; j < hapinessIndex.length(); j++){
 			if(happinessIndex[data[j].writer_id].flag != 1){ // wrong syntax - if flag of writer is 1
-				happinessIndex[data[j].writer_id].happinessIndex = happinessIndex[data[j].writer_id].happinessIndex - 1; //wrong syntax - subtract 10 from the happiness index
+				happinessIndex[data[j].writer_id].happinessIndex = happinessIndex[data[j].writer_id].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
 			}
 			else{
 				happinessIndex[data[j].writer_id].flag = 0; //wrong syntax - set flag to 0 again
