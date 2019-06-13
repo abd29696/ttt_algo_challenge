@@ -16,25 +16,46 @@ var t = 0;
 var authorCheck;
 var taleCheck;
 var limitDaily = 0;
+var listOfTalesPublished = [];
+var listofWritersPublished = [];
 
 
 distinctWriters();
 sortedData.sort(GetSortOrder("writerid"));
 keyValuePairWriters();
-setHappinessIndex();
 makeSchedule();
 console.table(talesPublished);
+talesPublished.sort(GetSortOrder("writerId"));
+keyValuePairPublishedWriters();
+listofWriters.sort(GetSortOrder("writerid"));
+listofWritersPublished.sort(GetSortOrder("writerId"));
+setHappinessIndex();
+console.table(happinessIndex);
 
-// var twoDData = [];
-// sortedData.forEach(function(object){
-//     twoDData.push([object.writerid,object.taleid]);
-// });
 
-// var result = sortedData.reduce(function(map, obj) {
-//     map[obj.writerid] = obj.taleid;
-//     return map;
-// }, {});
+function keyValuePairPublishedWriters(){
+	for(i = 0 ; i < talesPublished.length; i++){
+		if(writerCheck == ''){
+			writerCheck = talesPublished[i].writerId;
+			listOfTalesPublished.push(talesPublished[i].taleId);
+		}
+		else if(writerCheck != talesPublished[i].writerId){
+			var listofWritersTales = {
+				writerId: writerCheck,
+				taleId: listOfTalesPublished
+			}
+			listofWritersPublished.push(listofWritersTales);
+			writerCheck = talesPublished[i].writerId;
+			listOfTalesPublished = [];
+			listOfTalesPublished.push(talesPublished[i].taleId);
+		}
+		else{
+			listOfTalesPublished.push(talesPublished[i].taleId);
 
+		}
+
+	}
+}
 
 function keyValuePairWriters(){
 	for(i = 0 ; i < sortedData.length; i++){
@@ -177,9 +198,9 @@ function setHappinessIndex(){
 		var addHappinessIndex = {
 			writerId: listofWriters[i].writerid,
 			talesSubmitted: listofWriters[i].tales.length,
-			talesPublished: 0,
-			happinessIndex: 0,
-			flag: 0,
+			talesPublished: listofWritersPublished[i].taleId.length,
+			happinessIndex: (listofWritersPublished[i].taleId.length/listofWriters[i].tales.length)*10,
+			//flag: 0,
 			
 		};
 		happinessIndex.push(addHappinessIndex);
