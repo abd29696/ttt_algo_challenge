@@ -22,7 +22,7 @@ distinctWriters();
 sortedData.sort(GetSortOrder("writerid"));
 keyValuePairWriters();
 setHappinessIndex();
-//makeSchedule();
+makeSchedule();
 
 // var twoDData = [];
 // sortedData.forEach(function(object){
@@ -73,18 +73,20 @@ function makeSchedule(){
 			}
 			else{
 				authorCheck = listofWriters[w].writerid;
-				if(talesPublished.writerId.includes(authorCheck)){
+				const checkWriter = obj => obj.writerId === authorCheck;
+				if(talesPublished.some(checkWriter) == true){
 					taleCheck = listofWriters[w].tales[t];
-					if(talesPublished.taleId.includes(taleCheck)){
-						if(w < listofWriters.length){
+					const checkTale = obj => obj.taleId === taleCheck;
+					if(talesPublished.some(checkTale) == true){
+						if(w < listofWriters.length - 1){
 							w++;
 						}
-						else if(w == listofWriters.length){
+						else if(w == listofWriters.length - 1){
 							w = 0;
-							if(t<listofWriters[w].tales.length){
+							if(t < listofWriters[w].tales.length - 1){
 								t++;
 							}
-							else if(t == listofWriters[w].tales.length){
+							else if(t == listofWriters[w].tales.length - 1){
 								w++;
 							}
 						}
@@ -113,8 +115,19 @@ function makeSchedule(){
 			
 			if(limitDaily == 10){
 				talePublishDate++;
+				limitDaily = 0;
 			}
 	}
+}
+function ifWriterExists(writerid) {
+  return talesPublished.some(function(el) {
+    return el.writerid === writerid;
+  }); 
+}
+function ifTaleExists(taleid) {
+  return talesPublished.some(function(el) {
+    return el.taleid === taleid;
+  }); 
 }
 
 // function makeSchedule(){
