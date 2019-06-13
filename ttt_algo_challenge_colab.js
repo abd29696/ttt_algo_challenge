@@ -119,17 +119,6 @@ function makeSchedule(){
 			}
 	}
 }
-function ifWriterExists(writerid) {
-  return talesPublished.some(function(el) {
-    return el.writerid === writerid;
-  }); 
-}
-function ifTaleExists(taleid) {
-  return talesPublished.some(function(el) {
-    return el.taleid === taleid;
-  }); 
-}
-
 // function makeSchedule(){
 	// for(i = 0 ; i < listofWriters.length; i++){
 
