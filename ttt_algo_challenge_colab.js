@@ -7,11 +7,22 @@ var publishQueue = [];
 var dailyTaleLimit = 0;
 var publish_date = 1;
 var sortedData = data;
+var listOfTales = [];
+var listofWriters = [];
+var talesPublished = [];
+var talePublishDate = 0;
+var w = 0;
+var t = 0;
+var authorCheck;
+var taleCheck;
+var limitDaily = 0;
 
 
 distinctWriters();
-
 sortedData.sort(GetSortOrder("writerid"));
+keyValuePairWriters();
+setHappinessIndex();
+//makeSchedule();
 
 // var twoDData = [];
 // sortedData.forEach(function(object){
@@ -23,56 +34,70 @@ sortedData.sort(GetSortOrder("writerid"));
 //     return map;
 // }, {});
 
-var listOfTales = [];
-var listofWriters = [];
 
-for(i = 0 ; i < sortedData.length; i++){
-	if(writerCheck == ''){
-		writerCheck = sortedData[i].writerid;
-		listOfTales.push(sortedData[i].taleid);
-	}
-	else if(writerCheck != sortedData[i].writerid){
-		var listofWritersTales = {
-			writerid: writerCheck,
-			tales: listOfTales
+function keyValuePairWriters(){
+	for(i = 0 ; i < sortedData.length; i++){
+		if(writerCheck == ''){
+			writerCheck = sortedData[i].writerid;
+			listOfTales.push(sortedData[i].taleid);
 		}
-		listofWriters.push(listofWritersTales);
-		writerCheck = sortedData[i].writerid;
-		listOfTales = [];
-		listOfTales.push(sortedData[i].taleid);
-	}
-	else{
-		listOfTales.push(sortedData[i].taleid);
-
-	}
-
-}
-setHappinessIndex();
-
-var talesPublished = [];
-var talePublishDate = 0;
-var w = 0;
-var t = 0;
-var authorCheck;
-var taleCheck;
-while( talePublishDate < 30){
-		if(talesPublished.length == 0){
-			var publish = {
-				publishDate: talePublishDate,
-				writerId: listofWriters[w].writerid,
-				taleId: listofWriters[w].tales[t]
+		else if(writerCheck != sortedData[i].writerid){
+			var listofWritersTales = {
+				writerid: writerCheck,
+				tales: listOfTales
 			}
-			talesPublished.push(publish);
+			listofWriters.push(listofWritersTales);
+			writerCheck = sortedData[i].writerid;
+			listOfTales = [];
+			listOfTales.push(sortedData[i].taleid);
 		}
 		else{
-			authorCheck = listofWriters[w].writerid;
-			if(talesPublished.writerId.includes(authorCheck)){
-				taleCheck = listofWriters[w].tales[t];
-				if(talesPublished.taleId.includes(taleCheck)){
-					if(t<listofWriters[w].tales.length){
-						t++;
+			listOfTales.push(sortedData[i].taleid);
+
+		}
+
+	}
+}
+
+
+function makeSchedule(){
+	while( talePublishDate < 30){
+			if(talesPublished.length == 0){
+				var publish = {
+					publishDate: talePublishDate,
+					writerId: listofWriters[w].writerid,
+					taleId: listofWriters[w].tales[t]
+				}
+				talesPublished.push(publish);
+				limitDaily++;
+			}
+			else{
+				authorCheck = listofWriters[w].writerid;
+				if(talesPublished.writerId.includes(authorCheck)){
+					taleCheck = listofWriters[w].tales[t];
+					if(talesPublished.taleId.includes(taleCheck)){
+						if(w < listofWriters.length){
+							w++;
+						}
+						else if(w == listofWriters.length){
+							w = 0;
+							if(t<listofWriters[w].tales.length){
+								t++;
+							}
+							else if(t == listofWriters[w].tales.length){
+								w++;
+							}
+						}
 					}
-					
+					else{
+						var publish = {
+							publishDate: talePublishDate,
+							writerId: listofWriters[w].writerid,
+							taleId: listofWriters[w].tales[t]
+						}
+						talesPublished.push(publish);
+						limitDaily++;
+					}
 				}
 				else{
 					var publish = {
@@ -81,56 +106,50 @@ while( talePublishDate < 30){
 						taleId: listofWriters[w].tales[t]
 					}
 					talesPublished.push(publish);
-					if(t<listofWriters[w].tales.length){
-						t++;
-					}
+					limitDaily++;
 				}
-			}
-			else{
-				var publish = {
-					publishDate: talePublishDate,
-					writerId: listofWriters[w].writerid,
-					taleId: listofWriters[w].tales[t]
-				}
-				talesPublished.push(publish);
-				w++;
-			}
-		
-		}
-}
-
-
-for(i = 0 ; i < listofWriters.length; i++){
-
-	if(dailyTaleLimit != 10){
-		if(writerCheck != sortedData[i].writerid){
-			writerCheck = sortedData[i].writerid;
-			var publishDetails = {
-						publishDate: publish_date,
-						writerId: sortedData[i].writerid,
-						taleId: sortedData[i].taleid
-					};
-			publishQueue.push(publishDetails);
-			dailyTaleLimit++;
 			
-			//happinessIndex[writerCheck].happinessIndex = happinessIndex[sortedData[i].writerid].happinessIndex+1; //wrong syntax - find writer and add 10 to it's happiness index
-			//happinessIndex[sortedData[i].writerid].flag = 1; //wrong syntax - find writer and make flag 1
-		}
+			}
+			
+			if(limitDaily == 10){
+				talePublishDate++;
+			}
 	}
-	else{
-		dailyTaleLimit = 0;
-		publish_date++; 
-		// for(j = 0; j < hapinessIndex.length; j++){
-		// 	if(happinessIndex[sortedData[j].writerid].flag != 1){ // wrong syntax - if flag of writer is 1
-		// 		happinessIndex[sortedData[j].writerid].happinessIndex = happinessIndex[sortedData[j].writerid].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
-		// 	}
-		// 	else{
-		// 		happinessIndex[sortedData[j].writerid].flag = 0; //wrong syntax - set flag to 0 again
-		// 	}
-		// }
-
-	}	
 }
+
+// function makeSchedule(){
+	// for(i = 0 ; i < listofWriters.length; i++){
+
+		// if(dailyTaleLimit != 10){
+			// if(writerCheck != sortedData[i].writerid){
+				// writerCheck = sortedData[i].writerid;
+				// var publishDetails = {
+							// publishDate: publish_date,
+							// writerId: sortedData[i].writerid,
+							// taleId: sortedData[i].taleid
+						// };
+				// publishQueue.push(publishDetails);
+				// dailyTaleLimit++;
+				
+			//	happinessIndex[writerCheck].happinessIndex = happinessIndex[sortedData[i].writerid].happinessIndex+1; //wrong syntax - find writer and add 10 to it's happiness index
+			//	happinessIndex[sortedData[i].writerid].flag = 1; //wrong syntax - find writer and make flag 1
+			// }
+		// }
+		// else{
+			// dailyTaleLimit = 0;
+			// publish_date++; 
+			//for(j = 0; j < hapinessIndex.length; j++){
+			//	if(happinessIndex[sortedData[j].writerid].flag != 1){ // wrong syntax - if flag of writer is 1
+			//		happinessIndex[sortedData[j].writerid].happinessIndex = happinessIndex[sortedData[j].writerid].happinessIndex - 1; //wrong syntax - subtract 1 from the happiness index
+			//	}
+			//	else{
+			//		happinessIndex[sortedData[j].writerid].flag = 0; //wrong syntax - set flag to 0 again
+			//	}
+		//	}
+
+		// }	
+	// }
+// }
 
 function distinctWriters(){
 	for (var i = 0; i < data.length; i++){
