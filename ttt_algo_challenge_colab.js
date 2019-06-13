@@ -23,6 +23,7 @@ sortedData.sort(GetSortOrder("writerid"));
 keyValuePairWriters();
 setHappinessIndex();
 makeSchedule();
+console.table(talesPublished);
 
 // var twoDData = [];
 // sortedData.forEach(function(object){
@@ -64,7 +65,7 @@ function makeSchedule(){
 	while( talePublishDate < 30){
 			if(talesPublished.length == 0){
 				var publish = {
-					publishDate: talePublishDate,
+					publishDate: talePublishDate + 1,
 					writerId: listofWriters[w].writerid,
 					taleId: listofWriters[w].tales[t]
 				}
@@ -83,17 +84,17 @@ function makeSchedule(){
 						}
 						else if(w == listofWriters.length - 1){
 							w = 0;
-							if(t < listofWriters[w].tales.length - 1){
+							//if(t < listofWriters[w].tales.length - 1){
 								t++;
-							}
-							else if(t == listofWriters[w].tales.length - 1){
-								w++;
-							}
+							//}
+							//else if(t == listofWriters[w].tales.length - 1){
+							//	w++;
+							//}
 						}
 					}
 					else{
 						var publish = {
-							publishDate: talePublishDate,
+							publishDate: talePublishDate + 1,
 							writerId: listofWriters[w].writerid,
 							taleId: listofWriters[w].tales[t]
 						}
@@ -103,7 +104,7 @@ function makeSchedule(){
 				}
 				else{
 					var publish = {
-						publishDate: talePublishDate,
+						publishDate: talePublishDate + 1,
 						writerId: listofWriters[w].writerid,
 						taleId: listofWriters[w].tales[t]
 					}
