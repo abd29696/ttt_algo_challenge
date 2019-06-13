@@ -2,7 +2,7 @@ var writers = [];
 var flags = [];
 var happinessIndex = [];
 var totalHappinessIndex;
-var writerCheck;
+var writerCheck = '';
 var publishQueue = [];
 var dailyTaleLimit = 0;
 var publish_date = 1;
@@ -21,7 +21,30 @@ sortedData.sort(GetSortOrder("writerid"));
 //     map[obj.writerid] = obj.taleid;
 //     return map;
 // }, {});
+var listOfTales = [];
+var listofWriters = [];
 
+for(i = 0 ; i < sortedData.length; i++){
+	if(writerCheck == ''){
+		writerCheck = sortedData[i].writerid;
+		listOfTales.push(sortedData[i].taleid);
+	}
+	else if(writerCheck != sortedData[i].writerid){
+		var listofWritersTales = {
+			writerid: writerCheck,
+			tales: listOfTales
+		}
+		listofWriters.push(listofWritersTales);
+		writerCheck = sortedData[i].writerid;
+		listOfTales = [];
+		listOfTales.push(sortedData[i].taleid);
+	}
+	else{
+		listOfTales.push(sortedData[i].taleid);
+
+	}
+
+}
 for(i = 0 ; i < sortedData.length; i++){
 
 	if(dailyTaleLimit != 10){
