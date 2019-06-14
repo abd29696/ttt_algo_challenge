@@ -3,6 +3,7 @@ var flags = [];
 var happinessIndex = [];
 var totalHappinessIndex;
 var writerCheck = '';
+var writerCheckPublished = '';
 var publishQueue = [];
 var dailyTaleLimit = 0;
 var publish_date = 1;
@@ -20,13 +21,12 @@ var limitDaily = 0;
 var listOfTalesPublished = [];
 var listofWritersPublished = [];
 var totalScheduleDays = 30; //schedule for a month
-
+var allKeys = [];
+var allValues = [];
 
 distinctWriters();
 sortedData.sort(GetSortOrder("writerid"));
 keyValuePairWriters();
-listofWriters.sort((a, b) => parseInt(b.tales) - parseInt(a.tales));
-console.log(listofWriters);
 makeSchedule();
 console.table(talesPublished);
 talesPublished.sort(GetSortOrder("writerId"));
@@ -36,26 +36,45 @@ listofWritersPublished.sort(GetSortOrder("writerId"));
 setHappinessIndex();
 console.table(happinessIndex);
 
+function keyValuePairWriternotSorted(){
+	for(i=0; i<data.length; i++){
+		allKeys.push(data[i].writerid);
+		allValues.push(data[i].taleid);
+	}
+	for(i=0; i<allKeys.length; i++){
+		if(allKeys[i] ){
+		}
+	}
+}
+
 
 function keyValuePairPublishedWriters(){
 	for(i = 0 ; i < talesPublished.length; i++){
-		if(writerCheck == ''){
-			writerCheck = talesPublished[i].writerId;
+		if(writerCheckPublished == ''){
+			writerCheckPublished = talesPublished[i].writerId;
 			listOfTalesPublished.push(talesPublished[i].taleId);
 		}
-		else if(writerCheck != talesPublished[i].writerId){
+		else if(writerCheckPublished != talesPublished[i].writerId){
 			var listofWritersTales = {
-				writerId: writerCheck,
+				writerId: writerCheckPublished,
 				taleId: listOfTalesPublished
 			}
 			listofWritersPublished.push(listofWritersTales);
-			writerCheck = talesPublished[i].writerId;
+			writerCheckPublished = talesPublished[i].writerId;
 			listOfTalesPublished = [];
 			listOfTalesPublished.push(talesPublished[i].taleId);
 		}
 		else{
 			listOfTalesPublished.push(talesPublished[i].taleId);
 
+		}
+		if(i == talesPublished.length - 1){
+			var listofWritersTales = {
+				writerId: writerCheckPublished,
+				taleId: listOfTalesPublished
+			}
+			listofWritersPublished.push(listofWritersTales);
+				
 		}
 
 	}
@@ -76,10 +95,19 @@ function keyValuePairWriters(){
 			writerCheck = sortedData[i].writerid;
 			listOfTales = [];
 			listOfTales.push(sortedData[i].taleid);
+
 		}
 		else{
 			listOfTales.push(sortedData[i].taleid);
 
+		}
+		
+		if(i == sortedData.length - 1){
+			var listofWritersTales = {
+				writerid: writerCheck,
+				tales: listOfTales
+			}
+			listofWriters.push(listofWritersTales);
 		}
 
 	}
@@ -230,7 +258,3 @@ function GetSortOrderAL(prop) {
     	return a[prop].length - b[prop].length;
     }  
 }
-
-			
-
-
