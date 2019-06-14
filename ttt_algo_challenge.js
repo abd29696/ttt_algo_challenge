@@ -11,6 +11,7 @@ var listOfTales = [];
 var listofWriters = [];
 var talesPublished = [];
 var talePublishDate = 0;
+var undefinedCount = 0;
 var w = 0;
 var t = 0;
 var authorCheck;
@@ -18,11 +19,14 @@ var taleCheck;
 var limitDaily = 0;
 var listOfTalesPublished = [];
 var listofWritersPublished = [];
+var totalScheduleDays = 30; //schedule for a month
 
 
 distinctWriters();
 sortedData.sort(GetSortOrder("writerid"));
 keyValuePairWriters();
+listofWriters.sort((a, b) => parseInt(b.tales) - parseInt(a.tales));
+console.log(listofWriters);
 makeSchedule();
 console.table(talesPublished);
 talesPublished.sort(GetSortOrder("writerId"));
@@ -83,7 +87,7 @@ function keyValuePairWriters(){
 
 
 function makeSchedule(){
-	while( talePublishDate < 30){
+	while( talePublishDate < totalScheduleDays){
 			if(talesPublished.length == 0){
 				var publish = {
 					publishDate: talePublishDate + 1,
@@ -105,12 +109,11 @@ function makeSchedule(){
 						}
 						else if(w == listofWriters.length - 1){
 							w = 0;
-							//if(t < listofWriters[w].tales.length - 1){
-								t++;
-							//}
-							//else if(t == listofWriters[w].tales.length - 1){
-							//	w++;
-							//}
+							t++;
+							if(typeof listofWriters[w].tales[t] == "undefined"){
+								w++;
+								undefinedCount++;
+							}
 						}
 					}
 					else{
@@ -121,6 +124,7 @@ function makeSchedule(){
 						}
 						talesPublished.push(publish);
 						limitDaily++;
+						undefinedCount = 0;
 					}
 				}
 				else{
@@ -131,9 +135,12 @@ function makeSchedule(){
 					}
 					talesPublished.push(publish);
 					limitDaily++;
+					undefinedCount = 0;
 				}
 			
 			}
+			if(undefinedCount >= listofWriters.length)
+				break;
 			
 			if(limitDaily == 10){
 				talePublishDate++;
@@ -215,6 +222,12 @@ function GetSortOrder(prop) {
             return -1;  
         }  
         return 0;  
+    }  
+}
+
+function GetSortOrderAL(prop) {  
+    return function(a, b) {  
+    	return a[prop].length - b[prop].length;
     }  
 }
 
