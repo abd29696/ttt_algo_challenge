@@ -19,15 +19,15 @@ About the algorithm,
 
 Considerations during designing,
 
-•	As all the tales that have been selected are of equal quality, tales have been segregated according to the writers and then published one by one. 
-•	As the algorithm must strive to minimize writers leaving TTT, it is made sure that none of the writers earn nothing in a month provided that the number of writers are equal to or less than the tales limit per day * total number of days in the schedule (10 * 30 = 300).
-•	To minimize the overall unhappiness, considering the above, every writer would go public at least once.
-•	To increase the overall happiness, all the writers who have submitted a decent amount of tales, a fair amount of tales of each writer has been published.
-•	Those who have submitted an exceeding amount of tales, it is really appreciated but then submitting a higher number of their tales would decrease individual happiness of many and would make them leave TTT. Hence to be fair to the high numbers, the writers have been sorted in descending order of the tales submitted i.e. writers with more number of tales would have a slightly higher preference and are first in the queue.
-•	Happiness Index can be within a range of 0 to 10, where 0 being least happy and 10 being extremely happy. It is defined by (Number of Tales Published/Total Number of Tales Submitted) * 10. 
-•	According to the data provided, we have 74 writers. 
-o	The overall Happiness Index attained using this algorithm is 613/740.
-o	A total of 10 writers have their Happiness Index lesser than 5.
-o	A total of 64 writers have their Happiness Index above 5.
-o	50+ writers have their Happiness Index 8 or above. 
+- As all the tales that have been selected are of equal quality, tales have been segregated according to the writers and then published one by one. 
+- As the algorithm must strive to minimize writers leaving TTT, it is made sure that none of the writers earn nothing in a month provided that the number of writers are equal to or less than the tales limit per day * total number of days in the schedule (10 * 30 = 300).
+- To minimize the overall unhappiness, considering the above, every writer would go public at least once.
+- To increase the overall happiness, all the writers who have submitted a decent amount of tales, a fair amount of tales of each writer has been published.
+- Those who have submitted an exceeding amount of tales, it is really appreciated but then submitting a higher number of their tales would decrease individual happiness of many and would make them leave TTT. Hence to be fair to the high numbers, the writers have been sorted in descending order of the tales submitted i.e. writers with more number of tales would have a slightly higher preference and are first in the queue.
+- Happiness Index can be within a range of 0 to 10, where 0 being least happy and 10 being extremely happy. It is defined by (Number of Tales Published/Total Number of Tales Submitted) * 10. 
+- According to the data provided, we have 74 writers. 
+  - The overall Happiness Index attained using this algorithm is 613/740.
+  - A total of 10 writers have their Happiness Index lesser than 5.
+  - A total of 64 writers have their Happiness Index above 5.
+  - 50+ writers have their Happiness Index 8 or above. 
 
